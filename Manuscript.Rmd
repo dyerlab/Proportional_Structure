@@ -24,15 +24,17 @@ if( !require(ezknitr)) {
 
 ## Abstract
 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris mattis pharetra augue. Donec sed orci condimentum, dignissim velit eu, cursus urna. Pellentesque porta suscipit consequat. Duis accumsan odio in pharetra pharetra. Sed condimentum urna quis dui tincidunt, a malesuada magna condimentum. Etiam elementum luctus enim. Curabitur neque orci, fringilla quis scelerisque id, fringilla ut nisi. Praesent non dictum felis, sit amet volutpat leo. Aenean commodo quis tellus sit amet ornare.
+
+
+
+
 ## Introduction
+
+The most common tool for quantifying the amount of among-stratum genetic variation is the structure statistics.  Genetic structure is estimated by from one or more parameters  ever increasing population of different statistics, 
 
 ## The Model
 
-
-```{r}
-library(knitr)
-opts_knit$get("output.dir")
-```
 
 
 
@@ -48,7 +50,7 @@ opts_knit$get("output.dir")
 
 ## Acknowledgements
 
-
+This work has been supported in part by a grant to RJD from the National Science Foundation (NSF DEB 16XXXX).  Helpful comments on early versions of this work were provided by B. Verrelli, M. Kuechle, O. Latham, J. Remfert, B. Roderique, and M. Sankoh as were comments by X anonymous reviewers.
 
 ## Tables 
 
