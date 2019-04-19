@@ -2,6 +2,11 @@
 title: "Proportional Structure: Decomponsing Among Strata Genetic Variance"
 author: "Rodney J. Dyer"
 date: "For submission to Methods in Ecology & Evolution"
+github-repo: "dyerlab/proportional_fst"
+params:
+  output_dir: "./docs"
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
 output: html_document
 ---
 
@@ -9,6 +14,11 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE)
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(gstudio))
+
+if( !require(ezknitr)) {
+  install.packages("ezknitr")
+  library(ezknitr)
+}
 ```
 
 
@@ -17,6 +27,12 @@ suppressPackageStartupMessages(library(gstudio))
 ## Introduction
 
 ## The Model
+
+
+```{r}
+library(knitr)
+opts_knit$get("output.dir")
+```
 
 
 
