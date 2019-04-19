@@ -1,0 +1,42 @@
+---
+title: "Proportional Structure: Decomponsing Among Strata Genetic Variance"
+author: "Rodney J. Dyer"
+date: "For submission to Methods in Ecology & Evolution"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(gstudio))
+```
+
+
+## Abstract
+
+## Introduction
+
+## The Model
+
+
+
+## Example Testing 
+
+
+## Discussion
+
+
+
+## References Cited
+
+
+## Acknowledgements
+
+
+
+## Tables 
+
+
+## Figures
+
+
