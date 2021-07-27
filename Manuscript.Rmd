@@ -1,15 +1,23 @@
 ---
-title: "Delta<sub>S</sub>: A strata-level proporational contribution to genetic structure."
+title: "Post Hoc Structure: Strata-level proporational contributions to genetic structure facilitate increased interpretive power."
 description: |
-  The estimation of population-level genetic structure is a fundamental task for evoluationary, landscape, and ecological genetics, which answers the fundamental question of how much of the total genetic variance can be attriubted to individuals being allocated to specific strata.  This fundamental parameter provides insights into historical and ongoing microevolutionary processes and as such has spawned a large family of estimators—some unique and some repetitive—commonly found
+  The estimation of population-level genetic structure is a fundamental task for evoluationary, landscape, and ecological genetics, which answers the fundamental question of how much of the total genetic variance can be attriubted to individuals being allocated to specific strata.  This fundamental parameter provides insights into historical and ongoing microevolutionary processes and as such has spawned a large family of estimators—some unique and some repetitive.  What is lacking is a *post hoc* interpreation of these structure statistics that elucidates the relative contribution of individual stratum to the estimation of overall structure.  Here the parameter $\Delta_S$ is defined, yielding a stratum-level comparison of relative contribution to overall structure which aids in interpreting the way in which population structure is distributed rather than the magnitude of overall structure.  
 author:
   - name: Rodney J. Dyer 
     url: https://dyerlab.org
-    affiliation: Center for Enviornmental Studies, Virginia Commonwealth University, 1000 West Cary Street, Richmond, Virginia 23284
+    affiliation: |
+      Center for Environmental Studies<br/>
+      Virginia Commonwealth University<br/>   
+      1000 West Cary Street<br/>
+      Richmond, Virginia 23284, USA
     affiliation_url: https://ces.vcu.edu
+    orcid_id: 0000-0003-4707-3453
 date: "`r Sys.Date()`"
 bibliography: export.bib
-output: distill::distill_article
+output:
+  distill::distill_article:
+      toc: true
+      toc_float: true
 ---
 
 ```{r setup, include=FALSE}
@@ -32,15 +40,22 @@ library( tidyverse )
 
 ## Introduction
 
+To draw an analogy with normal parametric statistics, rejecting the null hypothesis that there is no structure is tantamount to finding a significant $F$ statistic in an analysis of variance.  In all but the most simple cases, the immediate next step in parametric statistics is to conduct a *post hoc* test to determine which treatment levels are contributing to this finding, whereas in population genetics the route of action is to either simply interpret the magnitude of the structure statistic in relation to other published organisms whose life-history traits are similar or to conduct a pair-wise analysis of all possible combinations of strata.  The former approach is largely a practice of hand-waving due to the fact that numerous different demographic and genetic histories may lead to a similar level of average among-population genetic structure.  Moreover, the latter suffers from significant loss in actual statistical power&mdash;we rarely sample enough individuals within individual locales when conducting analyses of multiple sampling strata yielding large variation around all of our parameters when each of the $K*(K-1)/2$ pairs of locales.  
+
+If our studies are focused on answering if there is genetic structure, we are justified at stopping here.  However, if the focus of the work is to characterize how variation is distributed across the landscape rather than if there is structure, then we need to proceed further in understanding the contributions each stratum provides to the amount of observed variation.  
+
+In this manuscript, I provide a decomposition of single and multilocus genetic structure whose aim is to understand how genetic variance is distributed.  In doing so, this extends the more prosaic approach to just asking if there is structure (e.g., $F_{ST} > 0$) allowing the researcher to understand the relative contributions to observed genetic structure by individual strata. 
+
 
 
 ### The Algebra of Structure Statistics
 
-For a single level analysis of structure, the statistic of interest estimates the proportion of the total genetic variance that can be attributable to individuals being assigned to distinct strata.  If considering only a single locus of genotypes, this parameter is called $\theta$ [@WeirCockerham84], whereas if it is additive across loci, it is defined as $\Phi_{ST}$  [@excoffierEtal1992]—a single locus $\Phi_{ST}$ is numerically identical to the $\theta$.  For our purposes, I will use the muiltilocus form for consistency with the nomenclature provided in [@smousePeakall].
+For a single level analysis of structure, the statistic of interest estimates the proportion of the total genetic variance that can be attributable to individuals being assigned to distinct strata.  If considering only a single locus of genotypes, this parameter is called $\theta$ [@WeirCockerham84], whereas if it is additive across loci, it is defined as $\Phi_{ST}$  [@excoffierEtal1992]—a single locus $\Phi_{ST}$ is numerically identical to the $\theta$.  For our purposes, I will use the multilocus form for consistency with the nomenclature provided in [@smousePeakall].
 
-\[
+\begin{align}
+\tag{1}
 \Phi_{ST} = \frac{\sigma_A}{\sigma_A + \sigma_W}
-\]
+\end{align}
 
 These components can be estimated using the following constructions. Smouse and Peakall -@smousePeakall provided a geometric approach that defines the distances between indiviudal genotypes based upon their allelic composition Figure \@ref(fig:AMOVATriangle).  
 
@@ -115,9 +130,73 @@ The residual variance/covariance matrix is thus defined as:
 \mathbf{R} = (\mathbf{I}-\mathbf{H})\mathbf{C}
 \]
 
-Each of these outer-product matrices represent the variance/covariance structure, with the total sums of squares given by trace of the total covariance matrix, 
+Each of these outer-product matrices represent the variance/covariance structure for a single-level decomposition.  The total sums of squares (with $N-1$ degrees of freedom) is estimated by the trace of the total covariance matrix,
 
-$SSD_{Total} = tr(C)$
+$$SSD_{Total} = tr(\mathbf{C})$$
 
-The among sum of squared deviations 
+The among strata (or model) sum of squared deviations with $K-1$ degrees of freedom is:
+
+$$SSD_{Model} = tr(\hat{\mathbf{Y}})$$
+
+And the residual (error) sums of squares is with $N - K - 1$ degrees of freedom are:
+
+$$SSD_{Error} = tr(\mathbf{R})$$
+
+Each of which are standardized into *Mean Squares* by division of the appropriate degrees of freedom.
+
+Variance component estimation follows the tradiational random effects model because the sampling locales are a subset of potential strata where the organisms exist.  The expectation of the *Mean Squares* for the error term is an unbiased estimator of the within strata variance component.
+
+\[
+E[MS_{Error}] = \sigma_W^2
+\]
+
+but the among strata componet is given by solving for $\sigma_A^2$ from
+
+\[
+E[MS_{Among}] = \sigma_A^2 \nu + \sigma_W^2
+\]
+
+where $\nu$ is a coefficient based upon the harmonic mean stratum population size (n.b., the formula for this originally presented for a distance-based approach for estimating population genetic structure in @excoffierEtal1992 has a typo in it, yielding an incorrect value.  See @searle1997 instead).  These variance components are additive in that
+
+$$\sigma_T^2 = \sigma_A^2 + \sigma_W^2$$
+which provides direct estimation of the overall magnitude of genetic differentiation (in Eqn. 1 above).  The parameter estimate of $\Phi_{ST}$ and the significance associated with the of the null hypothesis $H_O: \sigma_A^2 = 0$ is commonly found by permuting individuals across strata and interpretation of the results are based upon the operation or lack-thereof of microevolutionary processes.  However either a rejection or failure to reject this null hypothesis is often where the inferences end, perhaps prematurely, without considering how our sampled strata individually contribute to the parameter $\sigma_A^2$.
+
+
+### Proportional Contribution of Each Stratum
+
+
+
+
+
+## Examples 
+
+
+### Simulation of Structure
+
+
+
+
+
+### Human Genetic Structure   
+
+
+
+
+
+## Discussion
+
+
+
+
+## Acknowlegements {.appendix}
+
+This work was supported by a grant to RJD by the National Science Foundation (DEB:).  The markdown for this manuscript, the underlying data, and all analyses used in the development of this manuscript are publically available on the [Dyer Laboratory Github](https://github.com/dyerlab/proportional_fst) site.
+
+
+
+
+
+
+
+
 
