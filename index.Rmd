@@ -14,11 +14,17 @@ author:
     orcid_id: 0000-0003-4707-3453
 date: "`r Sys.Date()`"
 bibliography: export.bib
+repository_url: https://github.com/dyerlab/Proportional_Structure
+base_url: https://dyerlab.github.io/Proportional_Structure/
+creative_commons: CC BY-SA
+preview: images/AMOVA_Geometry.png
+twitter:
+  site: "@dyerlab"
+  creator: "@RodneyDyer"
 output:
   distill::distill_article:
       toc: true
       toc_float: true
-      
 ---
 
 ```{r setup, include=FALSE}
@@ -191,13 +197,13 @@ which provides direct estimation of the overall magnitude of genetic differentia
 
 ## Acknowlegements {.appendix}
 
-This work was supported by a grant to RJD by the National Science Foundation (DEB:).  The markdown for this manuscript, the underlying data, and all analyses used in the development of this manuscript are publically available on the [Dyer Laboratory Github](https://github.com/dyerlab/proportional_fst) site.
+This work was supported by a grant to RJD by the National Science Foundation (DEB:).  The markdown for this manuscript, the underlying data, and all analyses used in the development of this manuscript are publically available on the [Dyer Laboratory Github](https://github.com/dyerlab/Proportional_Structure) site.
 
 
 ## Supplemental Figures {.appendix}
 
 
-
+Supplemental figures here.
 
 
 
