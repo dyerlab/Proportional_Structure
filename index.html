@@ -1507,9 +1507,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <ul>
 <li><a href="#the-algebra-of-structure-statistics">The Algebra of Structure Statistics</a></li>
 <li><a href="#proportional-contribution-of-each-stratum">Proportional Contribution of Each Stratum</a></li>
+<li><a href="#significance-testing">Significance Testing</a></li>
 </ul></li>
 <li><a href="#examples">Examples</a>
 <ul>
+<li><a href="#statistical-power">Statistical Power</a></li>
 <li><a href="#simulation-of-structure">Simulation of Structure</a></li>
 <li><a href="#human-genetic-structure">Human Genetic Structure</a></li>
 </ul></li>
@@ -1996,7 +1998,26 @@ E[MS_{Among}] = \sigma_A^2 \nu + \sigma_W^2
 <p>where <span class="math inline">\(\nu\)</span> is a coefficient based upon the harmonic mean stratum population size (n.b., the formula for this originally presented for a distance-based approach for estimating population genetic structure in <span class="citation" data-cites="excoffierEtal1992"><a href="#ref-excoffierEtal1992" role="doc-biblioref">Excoffier, Smouse, and Quattro</a> (<a href="#ref-excoffierEtal1992" role="doc-biblioref">1992</a>)</span> has a typo in it, yielding an incorrect value. See <span class="citation" data-cites="searle1997"><a href="#ref-searle1997" role="doc-biblioref">Searle</a> (<a href="#ref-searle1997" role="doc-biblioref">1997</a>)</span> instead). These variance components are additive in that</p>
 <p><span class="math display">\[\sigma_T^2 = \sigma_A^2 + \sigma_W^2\]</span> which provides direct estimation of the overall magnitude of genetic differentiation (in Eqn. 1 above). The parameter estimate of <span class="math inline">\(\Phi_{ST}\)</span> and the significance associated with the of the null hypothesis <span class="math inline">\(H_O: \sigma_A^2 = 0\)</span> is commonly found by permuting individuals across strata and interpretation of the results are based upon the operation or lack-thereof of microevolutionary processes. However either a rejection or failure to reject this null hypothesis is often where the inferences end, perhaps prematurely, without considering how our sampled strata individually contribute to the parameter <span class="math inline">\(\sigma_A^2\)</span>.</p>
 <h3 id="proportional-contribution-of-each-stratum">Proportional Contribution of Each Stratum</h3>
+<p>The within stratum, or error, variance (<span class="math inline">\(\sigma_W^2\)</span>) is easily decomposed into its constiuent parts as:</p>
+<p><span class="math display">\[\begin{align}
+\sigma_W^2 &amp;= MSW \\
+           &amp;= \frac{SSD_{Error}}{df_{Error}} \\
+           &amp;= \frac{1}{N-K-1}(SSD_1 + SSD_2 + \cdots + SSD_K) \\
+           &amp;= \frac{1}{N-K-1} \sum_{i=1}^N\frac{\sum_{j=1}^{n_i}\sum_{j=1}^{n_i}\delta_{jk}^2}{2n_i} 
+\end{align}\]</span></p>
+<p>which yields <span class="math inline">\(K\)</span> distinct estimates of error variance for each of the stratum. The among component of genetic variation estimated by <span class="math inline">\(\sigma_A^2\)</span>, can be similarly decomposed as.</p>
+<p><span class="math display">\[\begin{align}
+\sigma_A^2 &amp;= \frac{1}{\nu}(MSA - \sigma_W^2) \\
+           &amp;= \frac{1}{\nu} \left[ \frac{SSD_{Among}}{K-1} - \sigma_W^2 \right] \\
+           &amp;= \frac{1}{\nu} \left[  \left( \sum_{i=1}^K \sum_{j \ne i}^K \frac{ \sum_{k=1}^{n_j}\sum_{l=1}^{n_j} \delta_{kl}^2}{n_i + n_j} \right) - \sigma_W^2 \right] \\
+           &amp;= \frac{1}{\nu} \left[ \left( \sum_{i=1}^K SSD_{i.} \right) - \sigma_W^2 \right]
+\end{align}\]</span></p>
+<p>where <span class="math inline">\(SSD_{i.}\)</span> is the amount of sums of squares contributed to the estimation of <span class="math inline">\(\sigma_A^2\)</span> by the <span class="math inline">\(i^{th}\)</span> population, which I will define as <span class="math inline">\(\Delta_S\)</span> for our purposes herein.</p>
+<h3 id="significance-testing">Significance Testing</h3>
+<p>Since we have no single parameter, significance testing is unwaranted. However, we can get an idea of the confidence around each of the <span class="math inline">\(K\)</span> observations for <span class="math inline">\(\Delta_S\)</span> by sub-sampling.</p>
 <h2 id="examples">Examples</h2>
+<p>The following sections focus on developing an understanding of the Type I error rate for these parameters.</p>
+<h3 id="statistical-power">Statistical Power</h3>
 <h3 id="simulation-of-structure">Simulation of Structure</h3>
 <h3 id="human-genetic-structure">Human Genetic Structure</h3>
 <h2 id="discussion">Discussion</h2>

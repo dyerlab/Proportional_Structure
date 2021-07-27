@@ -171,14 +171,41 @@ which provides direct estimation of the overall magnitude of genetic differentia
 
 ### Proportional Contribution of Each Stratum
 
+The within stratum, or error, variance ($\sigma_W^2$) is easily decomposed into its constiuent parts as:
+
+\begin{align}
+\sigma_W^2 &= MSW \\
+           &= \frac{SSD_{Error}}{df_{Error}} \\
+           &= \frac{1}{N-K-1}(SSD_1 + SSD_2 + \cdots + SSD_K) \\
+           &= \frac{1}{N-K-1} \sum_{i=1}^N\frac{\sum_{j=1}^{n_i}\sum_{j=1}^{n_i}\delta_{jk}^2}{2n_i} 
+\end{align}
+
+which yields $K$ distinct estimates of error variance for each of the stratum.  The among component of genetic variation estimated by $\sigma_A^2$, can be similarly decomposed as.
 
 
+\begin{align}
+\sigma_A^2 &= \frac{1}{\nu}(MSA - \sigma_W^2) \\
+           &= \frac{1}{\nu} \left[ \frac{SSD_{Among}}{K-1} - \sigma_W^2 \right] \\
+           &= \frac{1}{\nu} \left[  \left( \sum_{i=1}^K \sum_{j \ne i}^K \frac{ \sum_{k=1}^{n_j}\sum_{l=1}^{n_j} \delta_{kl}^2}{n_i + n_j} \right) - \sigma_W^2 \right] \\
+           &= \frac{1}{\nu} \left[ \left( \sum_{i=1}^K SSD_{i.} \right) - \sigma_W^2 \right]
+\end{align}
+
+where $SSD_{i.}$ is the amount of sums of squares contributed to the estimation of $\sigma_A^2$ by the $i^{th}$ population, which I will define as $\Delta_S$ for our purposes herein.
+
+
+### Significance Testing
+
+Since we have no single parameter, significance testing is unwaranted.  However, we can get an idea of the confidence around each of the $K$ observations for $\Delta_S$ by sub-sampling.
 
 
 ## Examples 
 
-
 ### Simulation of Structure
+
+The first objective here should be an examination of the sensitivity of $\Delta_S$ to 
+
+
+
 
 
 
