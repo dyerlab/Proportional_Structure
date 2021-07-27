@@ -1,72 +1,123 @@
 ---
-title: "Proportional Structure: Decomponsing Among Strata Genetic Variance"
-author: "Rodney J. Dyer"
-date: "For submission to Methods in Ecology & Evolution"
-github-repo: "dyerlab/proportional_fst"
-params:
-  output_dir: "./docs"
-knit: (function(inputFile, encoding) {
-  rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
-output: 
-  html_document:
-    toc: true
-    toc_depth: 2
-    toc_float: true
-    number_sections: false
-    df_print: paged
-    code_folding: hide
+title: "Delta<sub>S</sub>: A strata-level proporational contribution to genetic structure."
+description: |
+  The estimation of population-level genetic structure is a fundamental task for evoluationary, landscape, and ecological genetics, which answers the fundamental question of how much of the total genetic variance can be attriubted to individuals being allocated to specific strata.  This fundamental parameter provides insights into historical and ongoing microevolutionary processes and as such has spawned a large family of estimators—some unique and some repetitive—commonly found
+author:
+  - name: Rodney J. Dyer 
+    url: https://dyerlab.org
+    affiliation: Center for Enviornmental Studies, Virginia Commonwealth University, 1000 West Cary Street, Richmond, Virginia 23284
+    affiliation_url: https://ces.vcu.edu
+date: "`r Sys.Date()`"
+bibliography: export.bib
+output: distill::distill_article
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(gstudio))
+knitr::opts_chunk$set( echo = FALSE,
+                       message = FALSE )
+library( knitr )
+library( gstudio )
+library( kableExtra )
+library( tidyverse )
+```
 
-if( !require(ezknitr)) {
-  install.packages("ezknitr")
-  library(ezknitr)
+
+```{css}
+.caption { 
+  text-align: left;
 }
 ```
 
 
-# Abstract
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris mattis pharetra augue. Donec sed orci condimentum, dignissim velit eu, cursus urna. Pellentesque porta suscipit consequat. Duis accumsan odio in pharetra pharetra. Sed condimentum urna quis dui tincidunt, a malesuada magna condimentum. Etiam elementum luctus enim. Curabitur neque orci, fringilla quis scelerisque id, fringilla ut nisi. Praesent non dictum felis, sit amet volutpat leo. Aenean commodo quis tellus sit amet ornare.
-
+## Introduction
 
 
 
-# Introduction
+### The Algebra of Structure Statistics
 
-The most common tool for quantifying the amount of among-stratum genetic variation is the structure statistics.  Genetic structure is estimated by from one or more parameters  ever increasing population of different statistics, 
+For a single level analysis of structure, the statistic of interest estimates the proportion of the total genetic variance that can be attributable to individuals being assigned to distinct strata.  If considering only a single locus of genotypes, this parameter is called $\theta$ [@WeirCockerham84], whereas if it is additive across loci, it is defined as $\Phi_{ST}$  [@excoffierEtal1992]—a single locus $\Phi_{ST}$ is numerically identical to the $\theta$.  For our purposes, I will use the muiltilocus form for consistency with the nomenclature provided in [@smousePeakall].
 
-# The Model
+\[
+\Phi_{ST} = \frac{\sigma_A}{\sigma_A + \sigma_W}
+\]
+
+These components can be estimated using the following constructions. Smouse and Peakall -@smousePeakall provided a geometric approach that defines the distances between indiviudal genotypes based upon their allelic composition Figure \@ref(fig:AMOVATriangle).  
+
+```{r AMOVATriangle, fig.cap="Geometry of AMOVA distances for diploid loci.  Each edge segment on the periphery of the tetrahedron has unit length.  The genetic distance between individual geneotypes is the euclidean shortest path on (or through) the structure.", fig.align='center'}
+knitr::include_graphics("images/AMOVA_Geometry.png")
+```
+
+Across all possible combinations of alleles at two diploid genotypes, the pairwise genetic distance, $\delta_{ij}^2$ is shown in Table \@ref(tab:amovaDistance).  Multilocus estimates of genetic distance are derived by summing equally across loci (n.b., individual locus weights can be added, though they've rarely been shown to be more informative than equal contributions).
+
+```{r amovaDistance}
+df <- data.frame(  loci = c( locus("A:A"),
+                             locus("A:B"),
+                             locus("A:C"),
+                             locus("A:D"),
+                             locus("B:B"),
+                             locus("B:C"),
+                             locus("B:D"),
+                             locus("C:C"),
+                             locus("C:D"),
+                             locus("D:D")) )
+D <- genetic_distance( df , mode = "amova")
+rownames(D) <- colnames( D ) <- as.character( df$loci )
+kable( D, caption="Pairwise squared distance between individual diploid genotypes." ) %>%
+  kable_paper(bootstrap_options = "striped", full_width = F) %>%
+  column_spec(1, bold=TRUE) 
+```
+
+Across all sampled individuals, we can construct the pair-wise genetic distance matrix, $\mathbf{D}$ as: 
+
+\[
+D = \left[ 
+\begin{array}{cccc} 
+0 & \delta_{12}^2 & \cdots & \delta_{1N}^2 \\
+\delta_{21}^2 & 0 & \cdots & \delta_{2N}^2 \\
+\vdots & \vdots & \ddots & \vdots \\
+\delta_{N1} & \delta_{N2} & \cdots & \delta_{NN}^2
+\end{array}
+\right]
+\]
 
 
+where $\delta_{ij}^2$ represents the squared genetic distance between the $i^{th}$ and $j^{th}$ individuals.  By definiation, the elements of $\mathbf{D}$ are constrained such that $\delta_{ii} = 0$ and $\delta_{ij} \ge 0$.  Configured such that individuals are sorted by sampling stratum, this matrix has a distinct block form, which is informative for identifying the compartments within the matrix that represent genetic distances measured both among and with strata.  The sum of these squared distances subsets (hereafter $SSD_{level}$) can be directly injected into a normal random-effects Analysis of Variance [see @DyerEtAl2004 for a more generalized derivation into general linear models].
 
-
-```{r}
-mtcars
+```{r MATRIXBlocks, fig.cap="Compartmentalization of pairwise genetic distance matrix into subsets representing the among stratua, within strata, and total sums of squared distances (SSD).", fig.align='center'}
+knitr::include_graphics("images/Matrix_Blocks.png")
 ```
 
 
-# Example Testing 
+The pair-wise distance matrix $\mathbf{D}$ can be converted into a covariance matrix, $\mathbf{C}$, whose elements ($c_{ij}$) are estimated by 
 
+\[
+c_{ij} = -0.5( \delta_{ij}^2 - \delta_{i.}^2 - \delta_{.j}^2 + \delta_{..}^2)
+\]
 
-# Discussion
+where the dot subscripts represent the summation of row and/or column following @gower66.   
 
+Once converted to an R-mode covariance matrix (see @DyerEtAl2004), the variance decomposition proceeds as from a matrix approach as follows.  First, we must define the hypothesis matrix, $\mathbf{X}$ representing the allocation of individuals to one of the $K$ sampled strata (see @JohnsonWichern1992).  From this, the idempotent hypothesis matrix is given as:
 
+\[
+\mathbf{H} = \mathbf{X}(\mathbf{X}\mathbf{X}^\prime)^{-1}\mathbf{X}
+\]
 
-# References Cited
+which allows the estimation of the expected pair-wise covariance (or model) matrix, $\hat{\mathbf{Y}}$ as.
 
+\[
+\hat{\mathbf{Y}} = \mathbf{H}\mathbf{C}
+\]
 
-# Acknowledgements
+The residual variance/covariance matrix is thus defined as:
 
-This work has been supported in part by a grant to RJD from the National Science Foundation (NSF DEB 16XXXX).  Helpful comments on early versions of this work were provided by B. Verrelli, M. Kuechle, O. Latham, J. Remfert, B. Roderique, and M. Sankoh as were comments by X anonymous reviewers.
+\[
+\mathbf{R} = (\mathbf{I}-\mathbf{H})\mathbf{C}
+\]
 
-# Tables 
+Each of these outer-product matrices represent the variance/covariance structure, with the total sums of squares given by trace of the total covariance matrix, 
 
+$SSD_{Total} = tr(C)$
 
-# Figures
-
+The among sum of squared deviations 
 
