@@ -194,7 +194,7 @@ which provides direct estimation of the overall magnitude of genetic differentia
 This work was supported by a grant to RJD by the National Science Foundation (DEB:).  The markdown for this manuscript, the underlying data, and all analyses used in the development of this manuscript are publically available on the [Dyer Laboratory Github](https://github.com/dyerlab/proportional_fst) site.
 
 
-
+## Supplemental Figures {.appendix}
 
 
 
