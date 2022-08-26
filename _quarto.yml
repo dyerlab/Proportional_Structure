@@ -1,0 +1,22 @@
+project:
+  title: "Proportional Structure"
+  output-dir: docs
+
+format:
+  html:
+    toc: true
+    toc-title: Contents
+    toc-location: right
+    html-math-method: mathjax
+    citations-hover: true
+    footnotes-hover: true
+    link-external-icon: true
+    self-contained: true
+  revealjs:
+    self-contained: false
+    code-fold: false
+    code-overflow: wrap
+    footer: "[Dyerlab](https://dyerlab.org)"
+  
+
+
