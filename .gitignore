@@ -33,6 +33,8 @@ vignettes/*.pdf
 *.knit.md
 
 .DS_Store
-*.html
 index_files/
 /.quarto/
+README.html
+README_files
+
