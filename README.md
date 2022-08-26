@@ -1,5 +1,5 @@
-# proportional_fst
+# Post-Hoc Tests and a Fractional $F_{ST}$
 
-An approach to understanding the proportional contributions to Fst by individual populations, a work around for pairwise approaches.
+An approach to understanding the proportional contributions to F<sub>st</sub> by individual populations, a work around for pairwise approaches.
 
-Can be viewed on github.io at: https://dyerlab.github.io/proportional_fst/
+Can be viewed [here](https://dyerlab.github.io/proportional_fst/)
