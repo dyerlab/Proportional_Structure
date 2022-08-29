@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Rodney J. Dyer">
-<meta name="dcterms.date" content="2022-08-26">
+<meta name="dcterms.date" content="2022-08-29">
 
 <title>Post-Hoc Tests and a Fractional FST</title>
 <style>
@@ -2577,7 +2577,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 26, 2022</p>
+      <p class="date">August 29, 2022</p>
     </div>
   </div>
     
@@ -2586,7 +2586,7 @@ vertical-align: -.125em;
 <div>
   <div class="abstract">
     <div class="abstract-title">Abstract</div>
-    <p>The estimation of population-level genetic structure is a fundamental task for evoluationary, landscape, and ecological genetics, which answers the fundamental question of how much of the total genetic variance can be attriubted to individuals being allocated to specific strata. This fundamental parameter provides insights into historical and ongoing microevolutionary processes and as such has spawned a large family of estimators—some unique and some repetitive. What is lacking is a <em>post hoc</em> interpreation of these structure statistics that elucidates the relative contribution of individual stratum to the estimation of overall structure. Here the parameter <span class="math inline">\(\Delta_S\)</span> is defined, yielding a stratum-level comparison of relative contribution to overall structure which aids in interpreting the way in which population structure is distributed rather than the magnitude of overall structure.</p>
+    <p>The estimation of population-level genetic structure is a fundamental task for evoluationary, landscape, and ecological genetics. Strucure statistics quantify the relative partitiioning of total genetic variance into one or more nested levels. These fundamental parameters provides insights into historical and ongoing microevolutionary processes and as such has spawned a large family of estimators—some unique and some repetitive. What is lacking is a <em>post hoc</em> interpreation of these structure statistics. Simply rejecting the null hypothesis of no structure says little about how genetic variation is distributed within and among sampled strata. Here the parameter <span class="math inline">\(\Delta_S\)</span> is defined, yielding a stratum-level comparison of relative contribution to overall structure which aids in interpreting the way in which population structure is distributed rather than the magnitude of overall structure.</p>
   </div>
 </div>
 
@@ -2643,12 +2643,12 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
 </div>
 <div class="cell-output-display">
 
-<div id="uenraqsoxb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="qsztjvfugd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#uenraqsoxb .gt_table {
+#qsztjvfugd .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2673,7 +2673,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   border-left-color: #D3D3D3;
 }
 
-#uenraqsoxb .gt_heading {
+#qsztjvfugd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2685,7 +2685,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   border-right-color: #D3D3D3;
 }
 
-#uenraqsoxb .gt_title {
+#qsztjvfugd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2697,7 +2697,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   border-bottom-width: 0;
 }
 
-#uenraqsoxb .gt_subtitle {
+#qsztjvfugd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2709,13 +2709,13 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   border-top-width: 0;
 }
 
-#uenraqsoxb .gt_bottom_border {
+#qsztjvfugd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#uenraqsoxb .gt_col_headings {
+#qsztjvfugd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2730,7 +2730,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   border-right-color: #D3D3D3;
 }
 
-#uenraqsoxb .gt_col_heading {
+#qsztjvfugd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2750,7 +2750,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   overflow-x: hidden;
 }
 
-#uenraqsoxb .gt_column_spanner_outer {
+#qsztjvfugd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2762,15 +2762,15 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   padding-right: 4px;
 }
 
-#uenraqsoxb .gt_column_spanner_outer:first-child {
+#qsztjvfugd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#uenraqsoxb .gt_column_spanner_outer:last-child {
+#qsztjvfugd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#uenraqsoxb .gt_column_spanner {
+#qsztjvfugd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2782,7 +2782,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   width: 100%;
 }
 
-#uenraqsoxb .gt_group_heading {
+#qsztjvfugd .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2807,7 +2807,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   vertical-align: middle;
 }
 
-#uenraqsoxb .gt_empty_group_heading {
+#qsztjvfugd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2822,15 +2822,15 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   vertical-align: middle;
 }
 
-#uenraqsoxb .gt_from_md > :first-child {
+#qsztjvfugd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#uenraqsoxb .gt_from_md > :last-child {
+#qsztjvfugd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#uenraqsoxb .gt_row {
+#qsztjvfugd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2849,7 +2849,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   overflow-x: hidden;
 }
 
-#uenraqsoxb .gt_stub {
+#qsztjvfugd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2862,7 +2862,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   padding-right: 5px;
 }
 
-#uenraqsoxb .gt_stub_row_group {
+#qsztjvfugd .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2876,11 +2876,11 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   vertical-align: top;
 }
 
-#uenraqsoxb .gt_row_group_first td {
+#qsztjvfugd .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#uenraqsoxb .gt_summary_row {
+#qsztjvfugd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2890,16 +2890,16 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   padding-right: 5px;
 }
 
-#uenraqsoxb .gt_first_summary_row {
+#qsztjvfugd .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#uenraqsoxb .gt_first_summary_row.thick {
+#qsztjvfugd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#uenraqsoxb .gt_last_summary_row {
+#qsztjvfugd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2909,7 +2909,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   border-bottom-color: #D3D3D3;
 }
 
-#uenraqsoxb .gt_grand_summary_row {
+#qsztjvfugd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2919,7 +2919,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   padding-right: 5px;
 }
 
-#uenraqsoxb .gt_first_grand_summary_row {
+#qsztjvfugd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2929,11 +2929,11 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   border-top-color: #D3D3D3;
 }
 
-#uenraqsoxb .gt_striped {
+#qsztjvfugd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#uenraqsoxb .gt_table_body {
+#qsztjvfugd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2942,7 +2942,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   border-bottom-color: #D3D3D3;
 }
 
-#uenraqsoxb .gt_footnotes {
+#qsztjvfugd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2956,7 +2956,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   border-right-color: #D3D3D3;
 }
 
-#uenraqsoxb .gt_footnote {
+#qsztjvfugd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2965,7 +2965,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   padding-right: 5px;
 }
 
-#uenraqsoxb .gt_sourcenotes {
+#qsztjvfugd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2979,7 +2979,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   border-right-color: #D3D3D3;
 }
 
-#uenraqsoxb .gt_sourcenote {
+#qsztjvfugd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2987,36 +2987,36 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   padding-right: 5px;
 }
 
-#uenraqsoxb .gt_left {
+#qsztjvfugd .gt_left {
   text-align: left;
 }
 
-#uenraqsoxb .gt_center {
+#qsztjvfugd .gt_center {
   text-align: center;
 }
 
-#uenraqsoxb .gt_right {
+#qsztjvfugd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#uenraqsoxb .gt_font_normal {
+#qsztjvfugd .gt_font_normal {
   font-weight: normal;
 }
 
-#uenraqsoxb .gt_font_bold {
+#qsztjvfugd .gt_font_bold {
   font-weight: bold;
 }
 
-#uenraqsoxb .gt_font_italic {
+#qsztjvfugd .gt_font_italic {
   font-style: italic;
 }
 
-#uenraqsoxb .gt_super {
+#qsztjvfugd .gt_super {
   font-size: 65%;
 }
 
-#uenraqsoxb .gt_two_val_uncert {
+#qsztjvfugd .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -3025,31 +3025,31 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
   margin-left: 0.1em;
 }
 
-#uenraqsoxb .gt_footnote_marks {
+#qsztjvfugd .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#uenraqsoxb .gt_asterisk {
+#qsztjvfugd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#uenraqsoxb .gt_slash_mark {
+#qsztjvfugd .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#uenraqsoxb .gt_fraction_numerator {
+#qsztjvfugd .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#uenraqsoxb .gt_fraction_denominator {
+#qsztjvfugd .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
