@@ -26,7 +26,7 @@ library( tidyverse )
 
 The analysis of population genetic structure is commonly estimated from one (or more) paramaters which can be traced back to Wrights $F_{ST}$.
 
-Despite the introduction of the population genetic parameter $\theta$ by @WeirCockerham84 as an extension of the more common parametric analysis of variance, parameters estimated for population genetic structure often ignore the similarities. Both @excoffierEtal1992 and @smousePeakall extended
+Despite the introduction of the population genetic parameter $\theta$ by @WeirCockerham84 as an extension of the more common parametric analysis of variance, parameters estimated for population genetic structure often ignore the similarities. @excoffierEtal1992 --- and @smousePeakall --- extended the single locus treatment to be additive across loci.
 
 To draw an analogy between the analysis of population genetic structure and normal parametric statistics, rejecting the null hypothesis that there is no genetic structure is tantamount to finding a significant $F$ statistic in an analysis of variance. In fact, [@DyerEtAl2004] showed that the single locus $\theta$ statistic [@WeirCockerham84] and its multilocus analog $\Phi_{ST}$ [@excoffierEtal1992] are just edge cases of a more general set of linear regression models operating as Q-mode---the covariance matrix is among $N$ individuals---rather than the more common R-mode, where the covariance matrix is based upon the differences among $p$ variables.
 
@@ -47,12 +47,14 @@ $$
 \end{align}
 $$ These components can be estimated using a geometric interpretation of allelic space as defined by Smouse and Peakall [-@smousePeakall]. As a default, the distances between genotypes with a single allelic difference is assigned a unit length. Geometrically, two diploid genotypes can be embedded in a tetrahedron with homozygotes on the vertices and heterozygotes located at the midpoint of each edge (Figure @fig-AMOVATriangle). With four vertices, all combinations of two diploid genotypes may be configured and the squared genetic distance can be estimated.
 
-![Geometry of AMOVA distances for diploid loci. Each edge segment on the periphery of the tetrahedron has unit length. The genetic distance between individual geneotypes is the euclidean shortest path on (or through) the structure.](media/AMOVA_Geometry.png){#fig-AMOVATriangle}
+![Geometry of AMOVA distances for diploid loci. Each edge segment on the periphery of the tetrahedron has unit length. The genetic distance between individual geneotypes is the euclidean shortest path on (or through) the structure.](media/AMOVA_Geometry.png){#fig-AMOVATriangle fig-align="center"}
 
-Across all possible combinations of alleles at two diploid genotypes, the pairwise genetic distance, $\delta_{ij}^2$ is shown in Table \@ref(tab:amovaDistance). Multilocus estimates of genetic distance are derived by summing equally across loci (n.b., individual locus weights can be added, though they've rarely been shown to be more informative than equal contributions).
+Across all possible combinations of alleles at two diploid genotypes, the pairwise genetic distance, $\delta_{ij}^2$ is shown in Table \@tbl-amovaDistance. Multilocus estimates of genetic distance are derived by summing equally across loci (n.b., individual locus weights can be added, though they've rarely been shown to be more informative than equal contributions).
 
 ```{r}
-#| label: amovaDistance
+#| label: tbl-amovaDistance
+#| echo: false
+#| tbl-cap: Pairwise genetic distance between all potential allelic combinations for a diploid locus.
 
 loci <- c( locus("A:A"),
                              locus("A:B"),
@@ -67,7 +69,7 @@ loci <- c( locus("A:A"),
 
 data.frame(  loci = loci  ) |>
   genetic_distance( mode = "amova") |> 
-  as_tibble() |>
+  as_tibble( .name_repair=NULL ) |>
   mutate( Locus = as.character( loci ) ) |>
   select( Locus, everything() ) |> 
   set_names( c("Locus", as.character( loci ) )) |>
@@ -90,7 +92,7 @@ $$
 
 where $\delta_{ij}^2$ represents the squared genetic distance between the $i^{th}$ and $j^{th}$ individuals. By definition, the elements of $\mathbf{D}$ are constrained such that $\delta_{ii} = 0$ and $\delta_{ij} \ge 0$. Configured such that individuals are sorted by sampling stratum, this matrix has a distinct block form, which is informative for identifying the compartments within the matrix that represent genetic distances measured both among and with strata. The sum of these squared distances subsets (hereafter $SSD_{level}$) can be directly injected into a normal random-effects Analysis of Variance [see @DyerEtAl2004 for a more generalized derivation into general linear models].
 
-![](media/Matrix_Blocks.png){#fig-matrixBlocks}
+![](media/Matrix_Blocks.png){#fig-matrixBlocks fig-align="center" width="500"}
 
 The pair-wise distance matrix $\mathbf{D}$ can be converted into a covariance matrix, $\mathbf{C}$, whose elements ($c_{ij}$) are estimated by
 
@@ -98,7 +100,7 @@ $$
 c_{ij} = -0.5( \delta_{ij}^2 -* \delta_{i.}^2 - \delta_{.j}^2 + \delta_{..}^2) 
 $$
 
-where the dot subscripts represent the summation of row and/or column following @gower66.
+where the dot subscripts represent the summation of row and/or column (after @gower66).
 
 Once converted to an R-mode covariance matrix (see @DyerEtAl2004), the variance decomposition proceeds as from a matrix approach as follows. First, we must define the hypothesis matrix, $\mathbf{X}$ representing the allocation of individuals to one of the $K$ sampled strata (see @JohnsonWichern1992). From this, the idempotent hypothesis matrix is given as:
 
@@ -138,7 +140,7 @@ $$
 
 Each of which are standardized into *Mean Squares* by division of the appropriate degrees of freedom.
 
-Variance component estimation follows the tradiational random effects model because the sampling locales are a subset of potential strata where the organisms exist. The expectation of the *Mean Squares* for the error term is an unbiased estimator of the within strata variance component.
+Variance component estimation follows a traditional random effects model because the sampling locales are a subset of potential strata where the organisms exist (see @Searle1997). The expectation of the *Mean Squares* for the error term is an unbiased estimator of the within strata variance component.
 
 $$ 
 E[MS_{Error}] = \sigma_W^2 
@@ -147,16 +149,18 @@ $$
 but the among strata componet is given by solving for $\sigma_A^2$ from
 
 $$ 
-E[MS_{Among}] = \sigma_A^2 \nu + \sigma_W\^2 
+E[MS_{Among}] = \sigma_A^2 \nu + \sigma_W^2 
 $$
 
 where $\nu$ is a coefficient based upon the harmonic mean stratum population size (n.b., the formula for this originally presented for a distance-based approach for estimating population genetic structure in @excoffierEtal1992 has a typo in it, yielding an incorrect value. See @searle1997 instead). These variance components are additive in that
 
-$$\sigma_T^2 = \sigma_A^2 + \sigma_W^2$$ which provides direct estimation of the overall magnitude of genetic differentiation (in Eqn. 1 above). The parameter estimate of $\Phi_{ST}$ and the significance associated with the of the null hypothesis $H_O: \sigma_A^2 = 0$ is commonly found by permuting individuals across strata and interpretation of the results are based upon the operation or lack-thereof of microevolutionary processes. However either a rejection or failure to reject this null hypothesis is often where the inferences end, perhaps prematurely, without considering how our sampled strata individually contribute to the parameter $\sigma_A^2$.
+$$
+\sigma_T^2 = \sigma_A^2 + \sigma_W^2
+$$which provides direct estimation of the overall magnitude of genetic differentiation (in Eqn. 1 above). The parameter estimate of $\Phi_{ST}$ and the significance associated with the of the null hypothesis $H_O: \sigma_A^2 = 0$ is commonly found by permuting individuals across strata and interpretation of the results are based upon the operation or lack-thereof of microevolutionary processes. However either a rejection or failure to reject this null hypothesis is often where the inferences end, perhaps prematurely, without considering how our sampled strata individually contribute to the parameter $\sigma_A^2$.
 
 ### Proportional Contribution of Each Stratum
 
-The within stratum, or error, variance ($\sigma_W^2$) is easily decomposed into its constiuent parts as:
+The within stratum, or error, variance ($\sigma_W^2$) is easily decomposed into its constituent parts as:
 
 ```{=tex}
 \begin{align}
