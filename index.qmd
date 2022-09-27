@@ -5,7 +5,7 @@ abstract: |
 author:
   - name: Rodney J. Dyer 
     url: https://dyerlab.org
-    affiliation: Center for Environmental Studies<br/>Virginia Commonwealth Universityt<br/>Richmond, Virginia 23284, USA
+    affiliation: Center for Environmental Studies<br/>Virginia Commonwealth University<br/>Richmond, Virginia 23284, USA
     affiliation-url: https://ces.vcu.edu
     orcid_id: 0000-0003-4707-3453
 date: "`r Sys.Date()`"
@@ -36,7 +36,7 @@ If our studies are focused on answering if there is genetic structure, we are ju
 
 In this manuscript, I provide a decomposition of single and multilocus genetic structure whose aim is to understand how genetic variance is distributed. In doing so, this extends the more prosaic approach to just asking if there is structure (e.g., $F_{ST} > 0$) allowing the researcher to understand the relative contributions to observed genetic structure by individual strata.
 
-### The Algebra of Structure Statistics
+### The Geometry of Genetic Structure Statistics
 
 For a single level analysis of structure, the statistic of interest estimates the proportion of the total genetic variance that can be attributable to individuals being assigned to distinct strata. If considering only a single locus of genotypes, this parameter is called $\theta$ [@WeirCockerham84], whereas if it is additive across loci, it is defined as $\Phi_{ST}$ [@excoffierEtal1992]---a single locus $\Phi_{ST}$ is numerically identical to the $\theta$.
 
@@ -45,15 +45,18 @@ $$
 \tag{1}
 \Phi_{ST} = \frac{\sigma_A}{\sigma_A + \sigma_W}
 \end{align}
-$$ These components can be estimated using a geometric interpretation of allelic space as defined by Smouse and Peakall [-@smousePeakall]. As a default, the distances between genotypes with a single allelic difference is assigned a unit length. Geometrically, two diploid genotypes can be embedded in a tetrahedron with homozygotes on the vertices and heterozygotes located at the midpoint of each edge (Figure @fig-AMOVATriangle). With four vertices, all combinations of two diploid genotypes may be configured and the squared genetic distance can be estimated.
+$$ {#eq-phist}
+
+These components can be estimated using a geometric interpretation of allelic space as defined by Smouse and Peakall [-@smousePeakall]. As a default, the distances between genotypes with a single allelic difference is assigned a unit length. Geometrically, two diploid genotypes can be embedded in a tetrahedron with homozygotes on the vertices and heterozygotes located at the midpoint of each edge (@fig-AMOVATriangle). With four vertices, all combinations of two diploid genotypes may be configured and the squared genetic distance can be estimated.
 
 ![Geometry of AMOVA distances for diploid loci. Each edge segment on the periphery of the tetrahedron has unit length. The genetic distance between individual geneotypes is the euclidean shortest path on (or through) the structure.](media/AMOVA_Geometry.png){#fig-AMOVATriangle fig-align="center"}
 
-Across all possible combinations of alleles at two diploid genotypes, the pairwise genetic distance, $\delta_{ij}^2$ is shown in Table \@tbl-amovaDistance. Multilocus estimates of genetic distance are derived by summing equally across loci (n.b., individual locus weights can be added, though they've rarely been shown to be more informative than equal contributions).
+Across all possible combinations of alleles at two diploid genotypes, the pairwise genetic distance, $\delta_{ij}^2$ is shown in Table \@tbl-amovaDistance. Multilocus estimates of genetic distance are derived by summing equally across loci. Individual locus weights can be added in this configuration, though doing so has rarely been shown to be more informative than equal contributions for each locus with the additive effects of multilocus treatments dominating information content.
 
 ```{r}
 #| label: tbl-amovaDistance
 #| echo: false
+#| warning: false
 #| tbl-cap: Pairwise genetic distance between all potential allelic combinations for a diploid locus.
 
 loci <- c( locus("A:A"),
@@ -102,10 +105,22 @@ $$
 
 where the dot subscripts represent the summation of row and/or column (after @gower66).
 
-Once converted to an R-mode covariance matrix (see @DyerEtAl2004), the variance decomposition proceeds as from a matrix approach as follows. First, we must define the hypothesis matrix, $\mathbf{X}$ representing the allocation of individuals to one of the $K$ sampled strata (see @JohnsonWichern1992). From this, the idempotent hypothesis matrix is given as:
+Once converted to an R-mode covariance matrix (see @DyerEtAl2004), the variance decomposition proceeds as from a matrix approach as follows. First, we must define the hypothesis matrix, $\mathbf{X}$ representing the the row-wise binary allocation of each individual into one of the $K$ sampled strata represented as columns (see @JohnsonWichern1992).
+
+```{=tex}
+\begin{align}
+\mathbf{X} = \left[  \begin{array}{cccc}
+1 & 0 & \cdots & 0 \\
+1 & 0 & \cdots & 0 \\
+\vdots & \vdots & \vdots & \vdots \\
+0 & 0 & \cdots & 1 \\
+0 & 0 & \cdots & 1 \end{array} \right]
+\end{align}
+```
+From this, the an idempotent hypothesis matrix is given as:
 
 $$ 
-\mathbf{H} = \mathbf{X}(\mathbf{X}\mathbf{X}\prime)^{-1}\mathbf{X} 
+\mathbf{H} = \mathbf{X}(\mathbf{X}\mathbf{X}^\prime)^{-1}\mathbf{X} 
 $$
 
 which allows the estimation of the expected pair-wise covariance (or model) matrix, $\hat{\mathbf{Y}}$ as.
@@ -146,21 +161,23 @@ $$
 E[MS_{Error}] = \sigma_W^2 
 $$
 
-but the among strata componet is given by solving for $\sigma_A^2$ from
+but the among strata component is given by solving for $\sigma_A^2$ from
 
 $$ 
 E[MS_{Among}] = \sigma_A^2 \nu + \sigma_W^2 
 $$
 
-where $\nu$ is a coefficient based upon the harmonic mean stratum population size (n.b., the formula for this originally presented for a distance-based approach for estimating population genetic structure in @excoffierEtal1992 has a typo in it, yielding an incorrect value. See @searle1997 instead). These variance components are additive in that
+where $\nu$ is a coefficient based upon the harmonic mean stratum population size (n.b., the formula for this originally presented for a distance-based approach for estimating population genetic structure in @excoffierEtal1992 has a typo in it, yielding an incorrect value. See @searle1997 instead).
+
+These variance components are additive in that
 
 $$
 \sigma_T^2 = \sigma_A^2 + \sigma_W^2
-$$which provides direct estimation of the overall magnitude of genetic differentiation (in Eqn. 1 above). The parameter estimate of $\Phi_{ST}$ and the significance associated with the of the null hypothesis $H_O: \sigma_A^2 = 0$ is commonly found by permuting individuals across strata and interpretation of the results are based upon the operation or lack-thereof of microevolutionary processes. However either a rejection or failure to reject this null hypothesis is often where the inferences end, perhaps prematurely, without considering how our sampled strata individually contribute to the parameter $\sigma_A^2$.
+$$which provides direct estimation of the overall magnitude of genetic differentiation (in @eq-phist above). The parameter estimate of $\Phi_{ST}$ and the significance associated with the of the null hypothesis $H_O: \sigma_A^2 = 0$ is commonly found by permuting individuals across strata and interpretation of the results are based upon the operation or lack-thereof of microevolutionary processes. However either a rejection or failure to reject this null hypothesis is often where the inferences end, perhaps prematurely, without considering how our sampled strata individually contribute to the parameter $\sigma_A^2$.
 
 ### Proportional Contribution of Each Stratum
 
-The within stratum, or error, variance ($\sigma_W^2$) is easily decomposed into its constituent parts as:
+The within stratum, or error, variance ($\sigma_W^2$) is easily decomposed into its additive parts as:
 
 ```{=tex}
 \begin{align}
@@ -170,17 +187,20 @@ The within stratum, or error, variance ($\sigma_W^2$) is easily decomposed into 
            &= \frac{1}{N-K-1} \sum_{i=1}^N\frac{\sum_{j=1}^{n_i}\sum_{j=1}^{n_i}\delta_{jk}^2}{2n_i} 
 \end{align}
 ```
-which yields $K$ distinct estimates of error variance for each of the stratum. The among component of genetic variation estimated by $\sigma_A^2$, can be similarly decomposed as.
+which yields $K$ distinct estimates of error variance for each of the stratum.
+
+The among component of genetic variation estimated by $\sigma_A^2$, can be similarly decomposed as.
 
 ```{=tex}
 \begin{align}
 \sigma_A^2 &= \frac{1}{\nu}(MSA - \sigma_W^2) \\
            &= \frac{1}{\nu} \left[ \frac{SSD_{Among}}{K-1} - \sigma_W^2 \right] \\
            &= \frac{1}{\nu} \left[  \left( \sum_{i=1}^K \sum_{j \ne i}^K \frac{ \sum_{k=1}^{n_j}\sum_{l=1}^{n_j} \delta_{kl}^2}{n_i + n_j} \right) - \sigma_W^2 \right] \\
-           &= \frac{1}{\nu} \left[ \left( \sum_{i=1}^K SSD_{i.} \right) - \sigma_W^2 \right]
 \end{align}
 ```
-where $SSD_{i.}$ is the amount of sums of squares contributed to the estimation of $\sigma_A^2$ by the $i^{th}$ population, which I will define as $\Delta_S$ for our purposes herein.
+where the double sum can be defined as the standardized amount of sums of squares contributed to the estimation of $\sigma_A^2$ by the differences between the $i^{th}$ and $j^{th}$populations, which I will define as $\Delta_{ij}$ for our purposes herein. For simplicity,
+
+The variance within each stratum ($\sigma_W^2$) and that collection of $\Delta_{xy}$ estimates prov
 
 ### Significance Testing
 
